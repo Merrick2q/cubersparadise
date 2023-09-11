@@ -1,0 +1,15 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cubers Paradise</title>
+</head>
+<body>
+    <h1>Daftar Produk Cubers Paradise</h1>
+    <ul>
+        <li>{{ name }} - Jumlah: {{ quantity }} - Deskripsi: {{ description }}</li>
+        <img src="{% static 'images.jpg' %}">
+    </ul>
+</body>
+</html>
