@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
 def product_list(request):
-    # Sample data (replace with your own data)
     sample_items = [
         {
             'name': 'Mscube MS3X',
