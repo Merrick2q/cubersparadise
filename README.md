@@ -229,6 +229,7 @@ untuk menambahkan model item dengan atribut-atributnya.
 1. Buat berkas baru `urls.py` didalam aplikasi `main`
 
 ## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
+```
 Request (URL)
    |
    v
@@ -250,8 +251,8 @@ Template Rendering (HTML Template)
 HTTP Response (views.py)
    |
    v
-   Browser Pengguna
-
+Browser Pengguna
+```
 
 1. Request (URL)
 Klien (pengguna) memasukkan URL ke browser mereka untuk mengakses aplikasi Django.
