@@ -224,11 +224,66 @@ untuk menambahkan model item dengan atribut-atributnya.
 2. Lalu lakukan migrasi dengan menjalankan perintah `python manage.py makemigrations` untuk membuat migrasinya dan jalankan `python manage.py migrate` untuk melakukan migrasi.
 
 ## Membuat sebuah fungsi pada views.py untuk dikembalikan ke dalam sebuah template HTML yang menampilkan nama aplikasi serta nama dan kelas kamu.
-1. 
-## Membuat sebuah routing pada urls.py aplikasi main untuk memetakan fungsi yang telah dibuat pada views.py.
-1. Buat berkas baru `urls.py` didalam aplikasi `main`
+1. Buat direktori baru bernama `templates` yang akan menampung semua berkas html.
+2. Buka views.py pada direktori aplikasi main.
+3. Tambahkan berkas berikut.
+```
+from django.shortcuts import render
 
-## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
+def product_list(request):
+    sample_items = [
+        {
+            'name': 'Mscube MS3X',
+            'quantity': 5,
+            'description': 'Puzzle rubik flagship oleh Mscube. Pendiri Mscube adalah mantan designer dari perusahaan pembuat rubik paling terkenal di dunia yaitu Gancube.',
+            'image': 'https://www.thecubicle.com/cdn/shop/products/DianSheng-MS3X-3x3-black-internal_1200x1200.jpg?v=1670870380',  
+        },
+        {
+            'name': 'Dayan Tengyun V3 M',
+            'quantity': 3,
+            'description': 'Rubik Tengyun generasi ketiga dari Dayan yang terkenal dengan putarannya yang sunyi.',
+            'image': 'https://www.thecubicle.com/cdn/shop/products/dayan-tengyun-v3-m_1200x1200.jpg?v=1670433801',  
+        },
+        {
+            'name': 'Huameng YS3M',
+            'quantity': 7,
+            'description': 'Rubik dari perusahaan baru bernama Huameng yang merupakan anak perusahaan perusahaan pembuat rubik terkenal MoYu.',
+            'image': 'https://www.thecubicle.com/cdn/shop/products/moyu-huameng-ys3m-standard_grande.jpg?v=1687294228', 
+        },
+    ]
+
+    return render(request, 'product_list.html', {'items': sample_items})
+```
+3. `from django.shortcuts import render` akan menjalankan render yang memunculkan berkas html didalam direktori template saat menjalankan aplikasi nantinya.
+4. Disini karena saya membuat tabel dengan banyak produk saya membuat inputnya berupa *list*.
+5. Lalu ubah isi dari berkas html dengan sintaks Django `{{ }}` agar data dari view dapat masuk ke berkas html tersebut.
+
+## Membuat sebuah routing pada urls.py aplikasi main untuk memetakan fungsi yang telah dibuat pada views.py
+1. Buat berkas baru `urls.py` didalam aplikasi `main`. Isi dengan kode dibawah
+```
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.product_list, name='product_list'),
+]
+```
+Kode ini akan mengkonfigurasi routing URL aplikasi main.
+
+## Melakukan deployment ke Adaptable terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet.
+1. Masuk ke akun adaptable pada web adaptable.
+2. Masuk ke *app dashbaord* dan tekan `New App`.
+3. Pilih `Connect an Existing Repository` dan pilih repositori proyek yang sudah kita push ke github.
+4. Pilih Python App Template sebagai template deployment dan PostgreSQL sebagai tipe basis data yang akan digunakan.
+5. Sesuaikan dengan versi python yang terinstall di komputer kita dan tambahkan `python manage.py migrate && gunicorn <nama proyek>.wsgi` pada start command.
+6. Lalu tentukan nama aplikasi yang kita inginkan muncul sebagai domain.
+7. Tekan pada bagian `HTTP Listener on PORT` dan tekan deploy app.
+8. Tunggu sejenak hingga aplikasi kita berhasil di jalankan oleh adaptable (Kadang bermasalah).
+
+## Membuat sebuah README.md yang berisi tautan menuju aplikasi Adaptable
+1. Cara mudahnya adalah langsung menambahkan README.md melalui github.
+
+## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
 ```
 Request (URL)
    |
