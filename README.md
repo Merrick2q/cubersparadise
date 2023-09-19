@@ -1,6 +1,6 @@
 # Cubers Paradise
 
-**Tugas 2 PBP**
+# Tugas 2 PBP
 
 Nama: Ricky Setiawan
 
@@ -361,5 +361,133 @@ MVVM adalah pola desain arsitektur yang umumnya digunakan dalam pengembangan apl
 
 Dalam semua tiga pola desain ini, tujuannya adalah memisahkan peran masing-masing komponen dalam aplikasi agar lebih mudah dikelola dan dimodifikasi. Hal ini membantu dalam pengembangan aplikasi yang bersih, terstruktur, dan mudah dipelihara.
 
+# Tugas 3 PBP
+## Apa perbedaan antara form POST dan form GET dalam Django?
+1. form POST: adalah form yang digunakan untuk mengirimkan data form yang memiliki potensi besar atau sensitif ke server tanpa terlihat oleh pengguna (seperti pengiriman data pengguna, dan lain-lainnya).
+2. form GET: adalah form yang digunakan untuk mengambil data dari server dengan parameter tertentu (seperti pencarian dan atau filter data).
 
+## Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+1. XML (eXtensible Markup Language): XML adalah bahasa markup yang digunakan untuk mendefinisikan struktur data. Ini adalah format teks yang dapat disesuaikan dengan tag-tag yang digunakan untuk mengelompokkan dan mengatur data.
+- Penggunaan Umum: XML sering digunakan untuk pertukaran data antara sistem yang berbeda. Ini sering digunakan dalam layanan web, berkas konfigurasi, dan sebagai format penyimpanan data.
+- Keunggulan: XML memiliki kemampuan untuk menggambarkan struktur data yang sangat kompleks dan mendukung validasi terhadap struktur tersebut. Ini juga mendukung atribut yang memungkinkan penggunaan metadata tambahan.
+- Kelemahan: XML memiliki sintaks yang lebih berat dibandingkan dengan JSON dan HTML, sehingga bisa lebih sulit dibaca oleh manusia. Ukuran file XML biasanya lebih besar dibandingkan JSON dan HTML.
+
+2. JSON (JavaScript Object Notation): JSON adalah format pertukaran data yang ringan dan mudah dibaca oleh manusia. Ini menggunakan sintaks objek dan array dari JavaScript untuk merepresentasikan data.
+- Penggunaan Umum: JSON sering digunakan dalam pertukaran data antara aplikasi web dan server, penyimpanan konfigurasi, serta sebagai format data untuk API REST.
+- Keunggulan: JSON memiliki sintaks yang mudah dibaca, ringkas, dan ringan. Ini merupakan format yang sangat populer dalam pengembangan web modern.
+- Kelemahan: JSON tidak mendukung atribut seperti XML dan memiliki dukungan yang lebih terbatas untuk tipe data yang kompleks.
+
+3. HTML (Hypertext Markup Language): HTML adalah bahasa markup yang digunakan untuk membuat halaman web. Ini digunakan untuk mendefinisikan struktur dan tampilan konten pada halaman web.
+- Penggunaan Umum: HTML adalah bahasa dasar untuk membuat halaman web. Ini digunakan untuk menampilkan teks, gambar, tautan, formulir, dan elemen-elemen lain di dalam browser web.
+- Keunggulan: HTML dioptimalkan untuk mengatur tampilan dan interaksi antarmuka pengguna. Ini memiliki dukungan yang kuat untuk tautan dan formulir web.
+- Kelemahan: HTML tidak dirancang untuk pertukaran data struktural, seperti XML dan JSON. Ini lebih fokus pada presentasi dan interaksi pengguna.
+Dalam konteks pengiriman data, XML dan JSON umumnya digunakan untuk pertukaran data antara aplikasi atau sistem, sementara HTML digunakan untuk membuat halaman web yang dapat diakses oleh pengguna melalui browser web. Pemilihan format tergantung pada kebutuhan dan tujuan pengiriman data.
+
+## Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+JSON saat ini sering digunakan dalam pertukaran data bukan lain adalah karena keunggulannya. Berikut ini keunggulan dari penggunaan JSON.
+- Ringan dan mudah dibaca
+- Ringan dalam penggunaan sumber daya
+- Dukungan untuk tipe data yang umum
+- Kompatibilitas dengan JavaScript
+- Dukungan untuk RESTful API
+- Banyak library yang tersedia
+- Dukungan untuk pengembangan terdistribusi
+
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+## Membuat input form untuk menambahkan objek model pada app sebelumnya.
+1. Pertama-tama kita buat berkas baru bernama `forms.py` yang memiliki tujuan untuk membuat struktur form yang kita inginkan. Disini saya mengisi berkas `forms.py` saya sebagai berikut.
+```
+from django import forms
+from main.models import Product
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name", "quantity", "description", "image"]
+
+```
+disini saya membuat form untuk nama, banyak barang, deskripsi, dan juga gambar dari produknya (saat ini saya ubah image pada models.py menjadi URLfield).
+2. Lalu pindah ke `views.py` dan menambahkan beberapa import yaitu 
+```
+from django.http import HttpResponseRedirect
+from main.forms import ProductForm
+from main.forms import Product
+from django.urls import reverse
+```
+untuk dapat mengakses data pada `forms.py` dan `models.py` dan juga untuk dapat melakukan redirect setelah data dari form disimpan.
+3. Menambahkan fungsi baru pada `viewss.py`
+```
+def create_product(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:product_list'))
+
+    context = {'form': form}
+    return render(request, "create_product.html", context)
+```
+yang akan menyimpan form yang kita atau pengguna kirimkan dan menampilkan pada template html.
+4. Buat sebuah berkas html baru untuk menampilkan halaman form kita sesuai keinginan dan juga menambahkan button pada berkas html utama kita.
+
+## Tambahkan 5 fungsi views untuk melihat objek yang sudah ditambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+1. Pergi ke `views.py` dan saya tambahkan fungsi-fungsi berikut.
+```
+def create_product(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:product_list'))
+
+    context = {'form': form}
+    return render(request, "create_product.html", context)
+
+def show_xml(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_xml_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+```
+fungsi ini akan memungkinkan kita untuk dapat melihat produk yang telah kita tambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+
+## Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
+1. Pada `urls.py` di main kita akan mengimport semua yang baru saja kita tambahkan yaitu
+```
+from main.views import product_list, create_product, show_xml, show_json, show_xml_by_id, show_json_by_id
+```
+2. Lalu kita sesuaikan path url-nya.
+```
+urlpatterns = [
+    path('', product_list, name='product_list'),
+    path('create-product', create_product, name='create_product'),
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<int:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<int:id>/', show_json_by_id, name='show_json_by_id'), 
+]
+```
+sekarang kita dapat melihat semua semua produk yang telah kita tambahkan dalam berbagai format. Untul xml dan juga json kita dapat melihat barang kita dengan menambahkan `xml/`, `xml/<int:id>/`, `json/`, atau `json/<int:id>/` dengan `<int:id>` berarti barang urutan keberapa yang ingin kita liat.
+
+## Mengakses kelima URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+1. HTML
+![urls py - cubersparadise - Visual Studio Code 9_19_2023 11_23_04 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/f15c4889-0439-43a5-84e5-03eecc40012e)
+2. XML
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_21_38 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/3f423e6e-2578-40be-8b5f-125eb656ca1d)
+3. JSON
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_21_26 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/b257db4e-bd38-454e-a2a1-0440e2f43528)
+4. XML *by* ID
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_22_01 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/89b94dfc-d1e4-421a-900f-047ac2f3b3e4)
+5. JSON *by* ID
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_22_10 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/e2dbf022-4327-423a-9aca-f6fd302f90e7)
 
