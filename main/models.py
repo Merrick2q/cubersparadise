@@ -1,10 +1,10 @@
 from django.db import models
 
-class Item(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
     description = models.TextField()
-    image = models.ImageField(upload_to='items/')  
+    image = models.URLField()  
 
     def __str__(self):
         return self.name

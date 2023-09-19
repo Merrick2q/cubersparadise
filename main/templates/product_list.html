@@ -41,33 +41,46 @@
     </style>
 </head>
 <body>
-    <h1>Cubers Paradise</h1>
-    <br>
-    <p>Nama: Ricky Setiawan</p>
-    <p>NPM: 2206083161</p>
-    <p>Kelas: PBP E</p>
-    <br>
-    <h2 style="margin: 0;">Daftar Produk Cubers Paradise</h2>
-   
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nama</th>
-                <th>Stock</th>
-                <th>Deskripsi</th>
-                <th>Gambar</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.description }}</td>
-                <td><img src="{{ item.image }}"></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% extends 'base.html' %}
+
+    {% block content %}
+        <h1>Cubers Paradise</h1>
+        <br>
+        <p>Nama: Ricky Setiawan</p>
+        <p>NPM: 2206083161</p>
+        <p>Kelas: PBP E</p>
+        <br>
+        <h2 style="margin: 0;">Daftar Produk Cubers Paradise</h2>
+    
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Stock</th>
+                    <th>Deskripsi</th>
+                    <th>Gambar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.description }}</td>
+                    <td><img src="{{ item.image }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <br />
+
+        <a href="{% url 'main:create_product' %}">
+            <button>
+            Add New Product
+            </button>
+        </a>
+        
+    {% endblock content %}    
 </body>
 </html>
