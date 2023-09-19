@@ -491,3 +491,11 @@ sekarang kita dapat melihat semua semua produk yang telah kita tambahkan dalam b
 5. JSON *by* ID
 ![http___localhost_8000_xml - My Workspace 9_19_2023 11_22_10 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/e2dbf022-4327-423a-9aca-f6fd302f90e7)
 
+## Bonus
+Saya menambahkan class ini pada html saya yang akan menghitung banyaknya barang yang ada dengan menggunakan `length` yang akan menghitung banyaknya data pada list produk yang ada.
+```
+<div class="count_item">
+    <p>Anda telah memasukkan {{ items|length }} produk pada aplikasi ini</p>
+</div>
+```
+Dan lalu saya style sesuai kemauan saya.
