@@ -38,6 +38,39 @@
         tr:hover {
             background-color: #ddd;
         }
+        .count_item {
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        /* Tambahkan gaya untuk form */
+        .product-form {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Gaya untuk tombol submit */
+        .submit-button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit-button:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +84,11 @@
         <p>Kelas: PBP E</p>
         <br>
         <h2 style="margin: 0;">Daftar Produk Cubers Paradise</h2>
-    
+
+        <div class="count_item">
+            <p>Anda telah memasukkan {{ items|length }} produk pada aplikasi ini</p>
+        </div>
+
         <table border="1">
             <thead>
                 <tr>
@@ -80,7 +117,7 @@
             Add New Product
             </button>
         </a>
-        
+
     {% endblock content %}    
 </body>
 </html>
