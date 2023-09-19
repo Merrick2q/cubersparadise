@@ -480,4 +480,14 @@ urlpatterns = [
 sekarang kita dapat melihat semua semua produk yang telah kita tambahkan dalam berbagai format. Untul xml dan juga json kita dapat melihat barang kita dengan menambahkan `xml/`, `xml/<int:id>/`, `json/`, atau `json/<int:id>/` dengan `<int:id>` berarti barang urutan keberapa yang ingin kita liat.
 
 ## Mengakses kelima URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
-![]()
+1. HTML
+![urls py - cubersparadise - Visual Studio Code 9_19_2023 11_23_04 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/f15c4889-0439-43a5-84e5-03eecc40012e)
+2. XML
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_21_38 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/3f423e6e-2578-40be-8b5f-125eb656ca1d)
+3. JSON
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_21_26 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/b257db4e-bd38-454e-a2a1-0440e2f43528)
+4. XML *by* ID
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_22_01 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/89b94dfc-d1e4-421a-900f-047ac2f3b3e4)
+5. JSON *by* ID
+![http___localhost_8000_xml - My Workspace 9_19_2023 11_22_10 PM](https://github.com/Merrick2q/cubersparadise/assets/120576374/e2dbf022-4327-423a-9aca-f6fd302f90e7)
+
