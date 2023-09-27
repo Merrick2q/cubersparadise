@@ -19,6 +19,7 @@ def product_list(request):
     products = Product.objects.filter(user=request.user)
 
     context = {
+        'nama': request.user.username,
         'items': products,
         'last_login': request.COOKIES['last_login'],
     }
