@@ -13,6 +13,9 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+from .models import Product
 
 @login_required(login_url='/login')
 def product_list(request):
@@ -85,3 +88,34 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def product_management(request):
+    products = Product.objects.filter(user=request.user)
+    context = {'products': products}
+    return render(request, 'manage_products.html', context)
+
+def add_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        product.quantity += 1
+        product.save()
+        messages.success(request, 'Product quantity increased.')
+    return redirect('main:product_management')
+
+def subtract_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        if product.quantity > 0:
+            product.quantity -= 1
+            product.save()
+            messages.success(request, 'Product quantity decreased.')
+        else:
+            messages.warning(request, 'Product quantity cannot be negative.')
+    return redirect('main:product_management')
+
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        product.delete()
+        messages.success(request, 'Product deleted.')
+    return redirect('main:product_management')

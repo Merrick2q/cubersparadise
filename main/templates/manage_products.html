@@ -1,0 +1,85 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px auto;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd; /* Tambahkan garis pada sel tabel */
+    }
+
+    th {
+        background-color: #333;
+        color: #fff;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .back-button {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+
+{% extends 'base.html' %}
+{% block content %}
+<h2>Product Management</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Nama Produk</th>
+      <th>Jumlah</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td>{{ product.name }}</td>
+      <td>{{ product.quantity }}</td>
+      <td class="action-buttons">
+        <form method="POST" action="{% url 'main:add_product' product.id %}">
+          {% csrf_token %}
+          <button type="submit">Tambah</button>
+        </form>
+        <form method="POST" action="{% url 'main:subtract_product' product.id %}">
+          {% csrf_token %}
+          <button type="submit">Kurangi</button>
+        </form>
+        <form method="POST" action="{% url 'main:delete_product' product.id %}">
+          {% csrf_token %}
+          <button type="submit">Hapus</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'main:product_list' %}" class="back-button">
+    <button type="button">Kembali ke Halaman Utama</button>
+</a>
+{% endblock %}
