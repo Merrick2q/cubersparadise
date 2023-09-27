@@ -695,7 +695,88 @@ path('logout/', logout_user, name='logout'),
 ![Cubers Paradise - Google Chrome 9_27_2023 6_55_51 AM](https://github.com/Merrick2q/cubersparadise/assets/120576374/11b268de-710d-4605-9973-2b070d0f0df6)
 
 ## Menghubungkan model Item dengan User.
+1. Pada `models.py` kita tambahkan import berikut.
+```
+from django.contrib.auth.models import User
+```
+2. Lalu kita tambahkan model `user = models.ForeignKey(User, on_delete=models.CASCADE)` pada class Product
+3. Setelah kita kita ke `views.py` untuk mengubah change_product menjadi berikut.
+```
+def create_product(request):
+    form = ProductForm(request.POST or None)
 
+    if form.is_valid() and request.method == "POST":
+        product = form.save(commit=False)
+        product.user = request.user
+        product.save()
+        return HttpResponseRedirect(reverse('main:product_list'))
 
+    context = {'form': form}
+    return render(request, "create_product.html", context)
+```
+4. Lalu pada fungsi product_list kita ubah products menjadi `products = Product.objects.filter(user=request.user)` dan menambahkan nama user pada context dengan `'nama': request.user.username,`. Sehingga fungsi product_list akan menjadi seperti berikut.
+```
+@login_required(login_url='/login')
+def product_list(request):
+    products = Product.objects.filter(user=request.user)
 
+    context = {
+        'nama': request.user.username,
+        'items': products,
+        'last_login': request.COOKIES['last_login'],
+    }
+    return render(request, 'product_list.html', context)
+```
+5. sehabis itu kita melakukan migrasi. Saat menjalankan makemigrations akan muncul error. Kita akan pilih 1 untuk menetapkan default value untuk field user pada semua row yang telah dibuat pada basis data. Ketik 1 lagi agar user (yang sudah kita buat sebelumnya) dapat ditetapkan dengan ID 1 pada model yang sudah ada. Lalu baru kita dapat menjalankan migrate.
 
+## Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.
+1. Pada `views.py` kita tambahkan import berikut.
+```
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+```
+2. Ubah `login_user` menjadi sedemikian.
+```
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:product_list")) 
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
+        else:
+            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+    context = {}
+    return render(request, 'login.html', context)
+```
+3. Lalu kita tambahkan nama dari username dan juga last_login untuk memunculkan infomasi mereka pada fungsi `product_list` dibagian context sehingga menjadi seperti dibawah.
+```
+@login_required(login_url='/login')
+def product_list(request):
+    products = Product.objects.filter(user=request.user)
+
+    context = {
+        'nama': request.user.username,
+        'items': products,
+        'last_login': request.COOKIES['last_login'],
+    }
+    return render(request, 'product_list.html', context)
+```
+4. Lalu pastikan fungsi `logout_user` sudah sesuai dengan dibawah.
+```
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+5. Lalu kita cukup menambahkan pada html utama kita (product_list.html) dengan informasi yang baru kita tambahkan pada context.
+```
+<h5> Halo {{ nama }} </h5>
+<h5> Sesi terakhir login: {{ last_login }} </h5>
+```
+Sesuaikan penempatannya dengan kode kita.
