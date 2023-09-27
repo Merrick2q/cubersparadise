@@ -539,7 +539,8 @@ Penggunaan cookies jika dilakukan dengan benar relatif aman. Namun, terdapat beb
 
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 ## Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
-Disini saya menambahkan beberapa fungsi baru pada `views.py` yang digunakan untuk melakukan registrasi, login, dan logout.
+1. Pertaman-tama masuk ke virtual environment terlebih dahulu.
+2. Lalu disini saya menambahkan beberapa fungsi baru pada `views.py` yang digunakan untuk melakukan registrasi, login, dan logout.
 ```
 def registrasi(request):
     form = UserCreationForm()
@@ -574,10 +575,127 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 ```
-Tidak lupa juga untuk memasukkan import yang diperlukan.
+3. Tidak lupa juga untuk memasukkan import yang diperlukan.
 ```
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 ```
+4. Untuk dapat menampilkan fungsi registrasi dan login kita harus membuat berkas html baru pada `main/template` yang bersesuaian.
+- registrasi.html (untuk menampilkan halaman registrasi jika tombol registrasi ditekan)
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class = "login">
+    
+    <h1>Register</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+</div>  
+
+{% endblock content %}
+```
+- login.html (untuk menampilkan halaman login sebelum ke halaman main (product_list.html))
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class = "login">
+
+    <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+                    
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}     
+        
+    Don't have an account yet? <a href="{% url 'main:registrasi' %}">Register Now</a>
+
+</div>
+
+{% endblock content %}
+```
+5. Untuk logout kita hanya perlu menambahkan tombol logout pada `product_list.html`.
+```
+<a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+</a>
+```
+6. Lalu kita tambahkan semuanya ke `main/urls,py`.
+- Importnya akan menjadi seperti ini
+```
+from main.views import product_list, create_product, show_xml, show_json, show_xml_by_id, show_json_by_id, registrasi, login_user, logout_user
+```
+- Tambahkan pathnya
+```
+path('registrasi/', registrasi, name='registrasi'),
+path('login/', login_user, name='login'),
+path('logout/', logout_user, name='logout'),
+```
+
+7. Untuk merestriksi akses halaman `product_list` kita dapat menaruh `@login_required(login_url='/login')` diatas fungsi `product_list`. Dan menambahkan import ini `from django.contrib.auth.decorators import login_required` sehingga agar dapat masuk ke halaman utama pengguna harus melakukan login terlebih dahulu.
+
+## Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+![Cubers Paradise - Google Chrome 9_27_2023 6_51_32 AM](https://github.com/Merrick2q/cubersparadise/assets/120576374/d238012d-c24e-4677-9006-88292c1bfc12)
+![Cubers Paradise - Google Chrome 9_27_2023 6_55_51 AM](https://github.com/Merrick2q/cubersparadise/assets/120576374/11b268de-710d-4605-9973-2b070d0f0df6)
+
+## Menghubungkan model Item dengan User.
+
+
+
+
