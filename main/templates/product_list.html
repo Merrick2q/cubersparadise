@@ -62,7 +62,8 @@
         <p>Kelas: PBP E</p>
         <br>
         <h2 style="margin: 0;">Daftar Produk Cubers Paradise</h2>
-
+        
+        <h3> Halo {{ nama }} </h3>
         <div class="count_item">
             <p>Anda telah memasukkan {{ items|length }} produk pada aplikasi ini</p>
         </div>
@@ -90,7 +91,6 @@
         
         <br />
         
-        <h5> Halo {{ nama }} </h5>
         <h5> Sesi terakhir login: {{ last_login }} </h5>
 
         <a href="{% url 'main:logout' %}">
