@@ -6,41 +6,50 @@
         padding: 0;
         text-align: center;
     }
-
+    h2 {
+        padding: 25px;
+    }
     table {
         border-collapse: collapse;
         width: 80%;
         margin: 20px auto;
     }
-
     th, td {
         padding: 10px;
         text-align: center;
-        border: 1px solid #ddd; /* Tambahkan garis pada sel tabel */
+        border: 1px solid #ddd;
     }
-
     th {
         background-color: #333;
         color: #fff;
     }
-
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-
     tr:hover {
         background-color: #ddd;
     }
-
     .action-buttons {
         display: flex;
         justify-content: space-around;
     }
-
     .back-button {
         display: block;
         margin-top: 20px;
         text-align: center;
+    }
+    button {
+        font-size: small;
+        color: #edf0f1;
+        padding: 9px 25px;
+        background-color: rgba(0,136,169,1);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+    }
+    button:hover {
+        background-color: rgba(0,136,169,0.8);
     }
 </style>
 
@@ -79,7 +88,7 @@
   </tbody>
 </table>
 
-<a href="{% url 'main:product_list' %}" class="back-button">
+<a class="back-button" href="{% url 'main:product_list' %}">
     <button type="button">Kembali ke Halaman Utama</button>
 </a>
 {% endblock %}

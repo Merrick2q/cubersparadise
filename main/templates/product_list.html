@@ -11,6 +11,33 @@
             margin: 0;
             padding: 0;
         }
+        header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 30px 10px;
+            background-color: #333;
+            color: #edf0f1;
+            height: 35px;
+        }
+        header a {
+            margin-left: 25px;
+        }
+        .title {
+            cursor: pointer;
+            margin-right: auto;
+        }
+        .nav {
+            list-style: none;
+        }
+        .nav p {
+            display: inline-block;
+            padding: 0px 20px;
+        }
+        .nav h3 {
+            display: inline-block;
+            padding: 0px 20px;
+        }
         /* CSS untuk gambar dalam tabel */
         img {
             max-width: 200px;
@@ -19,7 +46,9 @@
         /* CSS untuk tabel */
         table {
             margin: 0 auto;
+            border: 1px #333;
             border-collapse: collapse;
+            border-spacing: 0;
             width: 80%;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -38,6 +67,9 @@
         tr:hover {
             background-color: #ddd;
         }
+        tr:last-child {
+            background-color: #D3D3D3;
+        }
         .count_item {
             text-align: center;
             background-color: #333;
@@ -49,21 +81,45 @@
             margin: 20px auto;
             max-width: 500px;
         }
+        button {
+            font-size: small;
+            color: #edf0f1;
+            padding: 9px 25px;
+            background-color: rgba(0,136,169,1);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+        }
+        button:hover {
+            background-color: rgba(0,136,169,0.8);
+        }
     </style>
 </head>
 <body>
     {% extends 'base.html' %}
 
     {% block content %}
-        <h1>Cubers Paradise</h1>
+        <header>
+            <h1 class="title">Cubers Paradise</h1>
+            <nav>
+                <ul class="nav">
+                    <p>Ricky Setiawan</p>
+                    <p>2206083161</p>
+                    <p>PBP E</p>
+                    <h3> Hallo {{ nama }} </h3>
+                </ul>
+            </nav>
+            <a href="{% url 'main:logout' %}">
+                <button>
+                    Logout
+                </button>
+            </a>  
+        </header>
         <br>
-        <p>Nama: Ricky Setiawan</p>
-        <p>NPM: 2206083161</p>
-        <p>Kelas: PBP E</p>
+        <br>
         <br>
         <h2 style="margin: 0;">Daftar Produk Cubers Paradise</h2>
-        
-        <h3> Halo {{ nama }} </h3>
         <div class="count_item">
             <p>Anda telah memasukkan {{ items|length }} produk pada aplikasi ini</p>
         </div>
@@ -89,27 +145,21 @@
             </tbody>
         </table>
         
-        <br />
+        <br/>
         
         <h5> Sesi terakhir login: {{ last_login }} </h5>
-
-        <a href="{% url 'main:logout' %}">
-            <button>
-                Logout
-            </button>
-        </a>
 
         <a href="{% url 'main:create_product' %}">
             <button>
             Add New Product
             </button>
-        </a>
-
-        <a href="{% url 'main:product_management' %}">
+        </a>    
+        
+        <a class="manage" href="{% url 'main:product_management' %}">
             <button>
                 Manage Products
             </button>
-         </a>         
+        </a>  
 
     {% endblock content %}    
 </body>
