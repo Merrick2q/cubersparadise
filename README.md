@@ -780,3 +780,33 @@ def logout_user(request):
 <h5> Sesi terakhir login: {{ last_login }} </h5>
 ```
 Sesuaikan penempatannya dengan kode kita.
+
+# Tugas 5
+## Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+1. Element selector
+    Merupakan selector yang memilih elemen HTML langsung berdasarkan tag elemen tersebut. Bermanfaat jika kita ingin mengubah style semua elemen pada suatu tag.
+2. Class selector
+    Merupakan selector yang hanya memilih elemen dengan atribut class yang diinginkan. Bermanfaat jika kita ingin mengubah style elemen-elemen yang berkarakteristik sama.
+3. ID selector
+    Merupakan selector yang memilih elemen berdasarkan ID yang sudah didefinisikan. Bermanfaat jika kita ingin mengubah style elemen secara spesifik (tidak mempengaruhi elemen dengan tag yang sama).
+4. Attribute selector
+    Merupakan selector yang memilih elemen berdasarkan atributnya. Bermanfaat jika kita ingin mengubah style elemen dengan atribut tertentu.
+5. Universal selctor
+    Merupakan selector yang akan mempengaruhi semua elemen dalam HTML. Bermanfaat untuk style yang ingin kita aplikasikan ke seluruh elemen.
+## Jelaskan HTML5 Tag yang kamu ketahui.
+- <br>, breakline untuk membuat sebuah break (simpelnya enter).
+- <body>, mendefinisikan body (isi dari file)dari HTML.
+- <head>, mendefinisikan head (informasi file seperti judul) dari HTML.
+- <div>, menentukan sebuah divisi.
+- <header>, merepresentasikan header atau pendahulu dari file.
+- <h1> hingga <h6>, mendefinisikan heading.
+- <p>, mendefinisikan paragraf.
+- <img>, merepresentasikan gambar.
+- <html>, mendefinisikan root dari file HTML.
+- <li>, mendefinisikan item list.
+- <nav>, mendefinisikan navbar (biasanya untuk link).
+- <style>, memasukkan internal css ke head dari file.
+- 
+## Jelaskan perbedaan antara margin dan padding.
+## Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
