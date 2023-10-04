@@ -794,19 +794,220 @@ Sesuaikan penempatannya dengan kode kita.
 5. Universal selctor
     Merupakan selector yang akan mempengaruhi semua elemen dalam HTML. Bermanfaat untuk style yang ingin kita aplikasikan ke seluruh elemen.
 ## Jelaskan HTML5 Tag yang kamu ketahui.
-- <br>, breakline untuk membuat sebuah break (simpelnya enter).
-- <body>, mendefinisikan body (isi dari file)dari HTML.
-- <head>, mendefinisikan head (informasi file seperti judul) dari HTML.
-- <div>, menentukan sebuah divisi.
-- <header>, merepresentasikan header atau pendahulu dari file.
-- <h1> hingga <h6>, mendefinisikan heading.
-- <p>, mendefinisikan paragraf.
-- <img>, merepresentasikan gambar.
-- <html>, mendefinisikan root dari file HTML.
-- <li>, mendefinisikan item list.
-- <nav>, mendefinisikan navbar (biasanya untuk link).
-- <style>, memasukkan internal css ke head dari file.
-- 
+- `<br>`, breakline untuk membuat sebuah break (simpelnya enter).
+- `<body>`, mendefinisikan body (isi dari file)dari HTML.
+- `<head>`, mendefinisikan head (informasi file seperti judul) dari HTML.
+- `<div>`, menentukan sebuah divisi.
+- `<header>`, merepresentasikan header atau pendahulu dari file.
+- `<h1> hingga <h6>`, mendefinisikan heading.
+- `<p>`, mendefinisikan paragraf.
+- `<img>`, merepresentasikan gambar.
+- `<html>`, mendefinisikan root dari file HTML.
+- `<li>`, mendefinisikan item list.
+- `<nav>`, mendefinisikan navbar (biasanya untuk link).
+- `<style>`, memasukkan internal css ke head dari file.
+- `<table>`, mendefinisikan sebuah tabel.
+- `<thead>`, membuat sebuah baris yang berisi informasi tabel.
+- `<tbody>`, mendefiniskan isi dari tabel.
+- `<th>`, mendefinisikan header tabel.
+- `<tr>`, mendefinisikan baris pada tabel.
+- `<td>`, mendefinisikan sebuah sel tabel.
+- `<title>`, mendefinisikan judul dari file.
+- `<ul>`, mendefinisikan unordered list.
+- `<button>`, mendefinisikan sebuah tombol.
 ## Jelaskan perbedaan antara margin dan padding.
+Margin mengatur kekosongan area yang berada disekitar border sedangkan padding mengatur kekosongan area disekitar content atau isinya langsung. Jadi urutannya dari terdalam hingga terluar adalah content, padding, border, margin.
 ## Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+Tailwind memiliki tingat kustomisasi yang lebih tinggi dibanding dengan Bootstrap, tetapi Bootstrap memiliki komponen siap pakai yang lebih banyak. Tailwind cenderung memiliki ukuran file yang lebih besar daripada Bootstrap dikarenakan oleh tingkat kostumisasinya.
+
+Kita menggunakan Tailwind saat kita benar-benar ingin mengkostumisasi web kita. Dan kita menggunakan Bootstrap saat kita ingin membangu web dalam waktu yang singkat.
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+## Kustomisasi desain pada templat HTML yang telah dibuat pada Tugas 4 dengan menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut.
+Saya disini menggunakan internal style untuk css saya.
+### Kustomisasi halaman login, register, dan tambah inventori semenarik mungkin.
+1. Saya menambahkan css untuk body sehingga mengubah font dan warna dari background dari `login.html`, `registrasi.html`, dan `create_product.html`. Saya juga menambahkan padding dan margin sehingga tampilannya tidak terlalu di pojok.
+```
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 10px;
+        padding: 10px;
+    }
+</style>
+``` 
+### Kustomisasi halaman daftar inventori menjadi lebih berwarna maupun menggunakan apporach lain seperti menggunakan Card.
+1. Saya menambahkan navbar pada bagian `product_list.html`.
+```
+<header>
+    <h1 class="title">Cubers Paradise</h1>
+    <nav>
+        <ul class="nav">
+            <p>Ricky Setiawan</p>
+            <p>2206083161</p>
+            <p>PBP E</p>
+            <h3> Hallo {{ nama }} </h3>
+        </ul>
+    </nav>
+    <a href="{% url 'main:logout' %}">
+        <button>
+            Logout
+        </button>
+    </a>  
+</header>
+```
+2. Lalu saya kustomisasi sesuai dengan keinginan saya. Berikut ini style saya pada `product_list.html`
+```
+<style>
+    /* CSS untuk pusatkan teks */
+    body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 30px 10px;
+        background-color: #333;
+        color: #edf0f1;
+        height: 35px;
+    }
+    header a {
+        margin-left: 25px;
+    }
+    .title {
+        cursor: pointer;
+        margin-right: auto;
+    }
+    .nav {
+        list-style: none;
+    }
+    .nav p {
+        display: inline-block;
+        padding: 0px 20px;
+    }
+    .nav h3 {
+        display: inline-block;
+        padding: 0px 20px;
+    }
+    /* CSS untuk gambar dalam tabel */
+    img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+    /* CSS untuk tabel */
+    table {
+        margin: 0 auto;
+        border: 1px #333;
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 80%;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #333;
+        color: #fff;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #ddd;
+    }
+    tr:last-child {
+        background-color: #D3D3D3;
+    }
+    .count_item {
+        text-align: center;
+        background-color: #333;
+        color: #fff;
+        font-weight: bold;
+        border: 2px solid;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 20px auto;
+        max-width: 500px;
+    }
+    button {
+        font-size: small;
+        color: #edf0f1;
+        padding: 9px 25px;
+        background-color: rgba(0,136,169,1);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+    }
+    button:hover {
+        background-color: rgba(0,136,169,0.8);
+    }
+</style>
+```
+3. Saya juga memiliki `manage_product.html` yang berfungsi untuk menambah, mengurang, atau menghapus jumlah item. Berikut style dari `manage_product.html`.
+```
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    h2 {
+        padding: 25px;
+    }
+    table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px auto;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+    th {
+        background-color: #333;
+        color: #fff;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #ddd;
+    }
+    .action-buttons { ##untuk tombol tambah, kurang, dan hapus
+        display: flex;
+        justify-content: space-around;
+    }
+    .back-button { ##untuk tombol kembali ke halaman utama
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+    }
+    button {
+        font-size: small;
+        color: #edf0f1;
+        padding: 9px 25px;
+        background-color: rgba(0,136,169,1);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+    }
+    button:hover {
+        background-color: rgba(0,136,169,0.8);
+    }
+</style>
+```
+
+
