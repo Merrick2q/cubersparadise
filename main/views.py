@@ -11,11 +11,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from .models import Product
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseNotFound
 
 @login_required(login_url='/login')
 def product_list(request):
@@ -119,3 +119,22 @@ def delete_product(request, product_id):
         product.delete()
         messages.success(request, 'Product deleted.')
     return redirect('main:product_management')
+
+def get_product_json(request):
+    product_item = Product.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', product_item))
+
+@csrf_exempt
+def add_product_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        quantity = request.POST.get("quantity")
+        description = request.POST.get("description")
+        image = request.POST.get("image")
+        user = request.user
+
+        new_product = Product(name=name, quantity=quantity, description=description, image=image, user=user)
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+    return HttpResponseNotFound()

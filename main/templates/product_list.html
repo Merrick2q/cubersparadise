@@ -48,7 +48,7 @@
             margin: 0 auto;
             border: 1px #333;
             border-collapse: collapse;
-            border-spacing: 0;
+            border-spacing: 1;
             width: 80%;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -119,35 +119,53 @@
         <br>
         <br>
         <br>
-        <h2 style="margin: 0;">Daftar Produk Cubers Paradise</h2>
+        <h2>Daftar Produk Cubers Paradise</h2>
         <div class="count_item">
             <p>Anda telah memasukkan {{ items|length }} produk pada aplikasi ini</p>
         </div>
 
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Stock</th>
-                    <th>Deskripsi</th>
-                    <th>Gambar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.description }}</td>
-                    <td><img src="{{ item.image }}"></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <table id="product_table"></table>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" class="col-form-label">Quantity:</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="col-form-label">Image:</label>
+                                <input type="url" class="form-control" id="image" name="image"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <br/>
         
         <h5> Sesi terakhir login: {{ last_login }} </h5>
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
 
         <a href="{% url 'main:create_product' %}">
             <button>
@@ -157,10 +175,46 @@
         
         <a class="manage" href="{% url 'main:product_management' %}">
             <button>
-                Manage Products
+            Manage Products
             </button>
         </a>  
 
+        <script>
+            async function getProducts() {
+                return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+            }
+            async function refreshProducts() {
+                document.getElementById("product_table").innerHTML = ""
+                const products = await getProducts()
+                let htmlString = `<tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                </tr>`
+                products.forEach((item) => {
+                    htmlString += `\n<tr>
+                    <td>${item.fields.name}</td>
+                    <td>${item.fields.quantity}</td>
+                    <td>${item.fields.description}</td>
+                    <td><img src ="${item.fields.image}"></td>
+                </tr>` 
+                })
+                
+                document.getElementById("product_table").innerHTML = htmlString
+            }
+            refreshProducts()
+            function addProduct() {
+                fetch("{% url 'main:add_product_ajax' %}", {
+                    method: "POST",
+                    body: new FormData(document.querySelector('#form'))
+                }).then(refreshProducts)
+
+                document.getElementById("form").reset()
+                return false
+            }
+            document.getElementById("button_add").onclick = addProduct
+        </script>    
     {% endblock content %}    
 </body>
 </html>
