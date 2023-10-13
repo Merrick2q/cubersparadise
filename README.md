@@ -9,6 +9,7 @@ Kelas: PBP E
 NPM: 2206083161
 
 Tautan aplikasi adaptable: [cubersparadise](https://cubersparadise3.adaptable.app/).
+Tautan aplikasi PaaS: [cubersparadise](http://ricky-setiawan21-tugas.pbp.cs.ui.ac.id).
 
 ## Membuat sebuah proyek Django baru
 1. Membuat sebuah direktori lokal baru sesuai yang diinginkan seperti cubersparadise dan buka command prompt atau terminal ke direktori tersebut.
