@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from main.forms import ProductForm
@@ -16,6 +17,7 @@ from django.contrib import messages
 from .models import Product
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseNotFound
+from django.http import JsonResponse
 
 @login_required(login_url='/login')
 def product_list(request):
@@ -138,3 +140,29 @@ def add_product_ajax(request):
 
         return HttpResponse(b"CREATED", status=201)
     return HttpResponseNotFound()
+
+@csrf_exempt
+def delete_product_ajax(request, id):
+    product = Product.objects.get(pk=id)
+    product.delete
+    return HttpResponseRedirect(reverse('main:product_list'))
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_product = Product.objects.create(
+            name = data["name"],
+            quantity = int(data["quantity"]),
+            description = data["description"],
+            image = data["image"],
+            user = request.user,
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)

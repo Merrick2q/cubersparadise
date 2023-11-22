@@ -139,7 +139,7 @@
         </div>
 
         <table id="product_table"></table>
-        
+
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -212,6 +212,9 @@
                     <td>${item.fields.quantity}</td>
                     <td>${item.fields.description}</td>
                     <td><img src ="${item.fields.image}"></td>
+                    <td>
+                        <button onclick="deleteProduct(${ item.pk })">Delete</button>
+                    </td>
                 </tr>` 
                 })
                 
@@ -228,6 +231,13 @@
                 return false
             }
             document.getElementById("button_add").onclick = addProduct
+            async function deleteProduct(productId) {
+                await fetch(`/delete-ajax/${productId}`, {
+                    method: 'POST',
+                    body: JSON.stringify({})
+                });
+                refreshProducts
+            }    
         </script>    
     {% endblock content %}    
 </body>
